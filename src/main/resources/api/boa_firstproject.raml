@@ -1,0 +1,39 @@
+#%RAML 1.0
+title: BOA_Firstproject
+mediaType: 
+- application/json
+protocols:
+  - HTTPS
+baseUri: "https://anypoint.mulesoft.com/mocking/api/v1/sources/vcs/projects/13ca6a22-5523-4808-86f3-1c87038d8230/master/m/Bankregistration"
+resourceTypes:
+  collection: !include Resourcetypes/resourceType.raml 
+traits:
+  Client_id_enforcement:
+    headers:
+      client_id:
+        type: string
+        required: true
+      client_secret:
+        type: string
+        required: true
+  Errormessage: !include Traits/errorTrait.raml
+types:
+  Createrecord: !include Datatype/createrequest.raml
+/Bankregistration:
+  type: collection
+  get:
+  post:
+  put:
+  delete:
+    
+  
+      
+  
+         
+            
+          
+            
+
+    
+    
+    

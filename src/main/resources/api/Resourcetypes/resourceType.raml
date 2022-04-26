@@ -1,0 +1,77 @@
+#%RAML 1.0 ResourceType
+get?:
+    description: GET << resourcePathName|!uppercamelcase>>
+    displayName: Accountdetails << resourcePathName|!uppercamelcase>>
+    is: [ Client_id_enforcement,Errormessage]
+    queryString:
+       properties:
+        Employee_id:
+          type: string
+        Firstname?:
+          type: string
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include.. Example/Emp.raml
+      400:
+        body:
+          application/json:
+            example: !include.. Example/400.json
+              
+      
+
+post?:
+    description: POST << resourcePathName|!uppercamelcase>>
+    displayName: Account Creation<< resourcePathName|!uppercamelcase>>
+
+    
+    body:
+      application/json:
+        type: Createrecord
+        
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include.. Example/201.json
+delete?:
+    description: Deelte  << resourcePathName|!uppercamelcase>>
+    displayName: Delete Account << resourcePathName|!uppercamelcase>>
+    is: [Client_id_enforcement,Errormessage]
+      
+    queryParameters:
+      EMPLOYEE_ID:
+        required: true
+        type: number
+        example: 672590
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include.. Example/200.json
+      
+      
+put?:
+    description: PUT  <<resourcePathName|!uppercamelcase>>
+    displayName: Account update << resourcePathName|!uppercamelcase>>
+    is: [Client_id_enforcement,Errormessage]
+      
+    
+    body:
+      application/json:
+        type: object
+        properties:
+          EMPLYEE_ID:
+
+            type: string
+            required: true
+          Employee_name:
+               type: string
+               required: true
+
+    responses:
+      201:
+        body:
+          application/json:
+            example: !include.. Example/201.json

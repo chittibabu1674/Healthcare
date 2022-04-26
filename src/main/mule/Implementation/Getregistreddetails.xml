@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/sockets http://www.mulesoft.org/schema/mule/sockets/current/mule-sockets.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+
+ <http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="23e7379c-abc6-41cd-a42a-e3b4b08d30b5" >
+		<http:request-connection usePersistentConnections="false">
+			<reconnection >
+				<reconnect count="1" />
+			</reconnection>
+			<http:client-socket-properties >
+				<sockets:tcp-client-socket-properties />
+			</http:client-socket-properties>
+		</http:request-connection>
+	</http:request-config>
+	<flow name="get:\Bankregistration:boa_firstproject-config">
+        <ee:transform>
+            <ee:message>
+                <ee:set-payload><![CDATA[%dw 2.0
+output application/json
+---
+"Example/Emp.raml"]]></ee:set-payload>
+            </ee:message>
+        </ee:transform>
+		<http:request method="GET" doc:name="Request" doc:id="644a5774-07a6-4eb5-92d0-fd85d190d5d5" config-ref="HTTP_Request_configuration" url="https://datausa.io/api/data">
+			<http:query-params ><![CDATA[#[output application/java
+---
+{
+	"drilldowns" : "Nation1",
+	"measures":"Population1"
+}]]]></http:query-params>
+		</http:request>
+		<choice doc:name="Choice" doc:id="a55bd9ec-390a-4b6c-be0e-68fc8727530a" >
+			<when expression="#[sizeOf((payload.data)) &lt;=0 or sizeOf((payload.source)) or  payload==null]">
+				<set-variable value="400" doc:name="Set Variable" doc:id="59c688df-bf39-4bc8-b7be-c7247a5c1b0e" variableName="httpStatus"/>
+				<ee:transform doc:name="Transform Message" doc:id="ebdd5531-c734-498e-80d4-bf8b550291d8" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"statuscode" : "400",
+	"Message":"No records found",
+	"Date": now()
+}]]></ee:set-payload>
+					</ee:message>
+					<ee:variables >
+					</ee:variables>
+				</ee:transform>
+			</when>
+			<otherwise >
+				<ee:transform doc:name="Transform Message" doc:id="c5af94df-594a-4c15-81f3-3aec86910973" >
+					<ee:message >
+						<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+					</ee:message>
+				</ee:transform>
+			</otherwise>
+		</choice>
+		<logger level="INFO" doc:name="Logger" doc:id="9eaf3c4d-bd6e-476e-baa8-1a72f112e85a" message="#[payload]"/>
+    
+</flow>
+
+
+</mule>

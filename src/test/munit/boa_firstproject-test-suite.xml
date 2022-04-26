@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="boa_firstproject-test-suite.xml" />
+	<munit:test name="boa_firstproject-test-suite-boa_firstproject-mainTest" doc:id="19ff469e-423e-49ce-b16e-fe058c371278" description="Test">
+		<munit:behavior >
+			<munit-tools:mock-when doc:name="Mock when" doc:id="7b59a542-c008-42ba-bbf5-2c4b444dc68b" />
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="880f5097-8f2f-4064-9f78-af6503734d42" />
+			<flow-ref doc:name="Flow-ref to boa_firstproject-main" doc:id="b9e84452-4c79-4709-93be-a5d2c8da8b68" name="boa_firstproject-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert doc:name="Assert expression" doc:id="04047f02-dea4-4c9f-98f8-0bca832844e2" />
+		</munit:validation>
+	</munit:test>
+	<munit:test name="boa_firstproject-test-suite-boa_firstproject-mainTest1" doc:id="b2d114d0-a9c4-4ee3-90dd-5e22c83d57fd" description="Test">
+		<munit:behavior>
+			<munit-tools:spy doc:name="Spy" doc:id="eb446ae9-5c67-4584-8955-945d4f8b1dee" >
+				<munit-tools:before-call >
+					<logger level="INFO" doc:name="Logger" doc:id="0b959316-38ba-43f6-a82c-f4f9cb0f4882" />
+					<munit-tools:assert-equals doc:name="Assert equals" doc:id="ce232d75-305c-48ef-bb73-dfdd5be78abd" />
+				</munit-tools:before-call>
+				<munit-tools:after-call >
+					<logger level="INFO" doc:name="Logger" doc:id="074c8884-61c0-40e6-b4a4-04226f907927" />
+					<munit-tools:assert-equals doc:name="Assert equals" doc:id="6a500a45-ffbf-4fa0-8683-a4fd5174a451" />
+				</munit-tools:after-call>
+			</munit-tools:spy>
+			<munit-tools:mock-when doc:name="Mock when" doc:id="2bc032c8-7127-4e07-bf26-c2d9641397b7" />
+		</munit:behavior>
+		<munit:execution >
+			<munit:set-event doc:name="Set Event" doc:id="1353b50a-9fe8-43be-9179-b22efc1e1f4a" />
+			<flow-ref doc:name="Flow-ref to boa_firstproject-main" doc:id="4faf3ab6-5d6e-4201-abf9-93390b3550e2" name="boa_firstproject-main"/>
+		</munit:execution>
+		<munit:validation >
+			<munit-tools:assert-that doc:name="Assert that" doc:id="562188ba-d3b7-495a-a5ec-e9f33efcc16d" is="#[MunitTools::notNullValue()]"/>
+			<munit-tools:verify-call doc:name="Verify call" doc:id="73b7752f-17d6-41cd-b4e1-3705e168752f" />
+		</munit:validation>
+	</munit:test>
+
+
+</mule>
