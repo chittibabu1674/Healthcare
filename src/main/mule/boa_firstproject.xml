@@ -15,7 +15,7 @@ xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:ee="http://
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:error-response>
         </http:listener>
-        <logger level="INFO" doc:name="Logger" doc:id="a34691cc-3538-4cc7-9cc4-e8d1682fb7f7" message='#[payload ++ "Start of the program"]'/>
+        <logger level="INFO" doc:name="Logger" doc:id="a34691cc-3538-4cc7-9cc4-e8d1682fb7f7" message='#[payload ++ "Start of the program by chitti"]'/>
 		<apikit:router config-ref="boa_firstproject-config" />
 		<error-handler ref="Error_Handler" />
        
